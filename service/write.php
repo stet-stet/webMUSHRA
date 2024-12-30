@@ -88,6 +88,53 @@ if ($write_mushra) {
 	fclose($fp);
 }
 
+// mushra_phoneme
+
+$write_mushra_phoneme = false;
+$mushraPhonemeCsvData = array();
+
+$input = array("session_test_id");
+for($i =0; $i < $length; $i++){
+	array_push($input, $session->participant->name[$i]);
+}
+array_push($input, "session_uuid", "trial_id", "rating_stimulus", "rating_score", "rating_time", "rating_comment", "loop_start", "loop_end");
+array_push($mushraPhonemeCsvData, $input);
+
+foreach ($session->trials as $trial) {
+  if ($trial->type == "mushra_phoneme") {
+  $write_mushra_phoneme = true;
+
+    foreach ($trial->responses as $response) {
+
+
+    $results = array($session->testId);
+    for($i =0; $i < $length; $i++){
+      array_push($results, $session->participant->response[$i]);
+    }
+    array_push($results, $session->uuid, $trial->id, $response->stimulus, $response->score, $response->time, $response->comment, $response->loopstart, $response->loopend);
+
+      array_push($mushraPhonemeCsvData, $results);
+
+
+    }
+  }
+}
+		
+if ($write_mushra_phoneme) {
+	$filename = $filepathPrefix."mushra".$filepathPostfix;
+	$isFile = is_file($filename);
+	$fp = fopen($filename, 'a');
+	foreach ($mushraPhonemeCsvData as $row) {
+		if ($isFile) {	    	
+			$isFile = false;
+		} else {
+		   fputcsv($fp, $row);
+		}
+	}
+	fclose($fp);
+}
+
+
 // paired comparison
 
 $write_pc = false;

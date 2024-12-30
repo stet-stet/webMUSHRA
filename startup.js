@@ -85,6 +85,9 @@ function addPagesToPageManager(_pageManager, _pages) {
       } else if (pageConfig.type == "mushra") {
         var mushraPage = new MushraPage(_pageManager, audioContext, config.bufferSize, audioFileLoader, session, pageConfig, mushraValidator, errorHandler, config.language);
         _pageManager.addPage(mushraPage);
+      } else if (pageConfig.type == "mushra_phoneme"){
+        var mushraPhonemePage = new MushraPhonemePage(_pageManager, audioContext, config.bufferSize, audioFileLoader, session, pageConfig, mushraValidator, errorHandler, config.language);
+        _pageManager.addPage(mushraPhonemePage);
       } else if ( pageConfig.type == "spatial"){
         _pageManager.addPage(new SpatialPage(_pageManager, pageConfig, session, audioContext, config.bufferSize, audioFileLoader, errorHandler, config.language));
       } else if (pageConfig.type == "paired_comparison") {
